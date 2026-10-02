@@ -6,5 +6,6 @@ out/
 *.log*
 .env
 vosk-model/
+vosk-model-*/
 vosk-model-*.zip
 interviews/

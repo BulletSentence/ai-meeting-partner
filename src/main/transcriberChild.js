@@ -4,8 +4,9 @@ const path = require('path')
 // Suppress vosk spam logs
 vosk.setLogLevel(-1)
 
-// Path to the vosk model
-const modelPath = path.join(process.cwd(), 'vosk-model')
+// Path to the Vosk model is selected by the setup screen.
+const modelDirectory = process.argv[2] || 'vosk-model-pt'
+const modelPath = path.join(process.cwd(), modelDirectory)
 console.log(`[Child Transcriber] Loading model from: ${modelPath}`)
 
 const model = new vosk.Model(modelPath)

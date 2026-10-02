@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { GoogleGenAI } from '@google/genai'
 import OpenAI from 'openai'
 import Anthropic from '@anthropic-ai/sdk'
@@ -16,9 +17,12 @@ let useOllama = false
  */
 export function configureAI(userData) {
   const { name, college, jobRole, jobDescription, cvText } = userData
+  const responseLanguage = userData?.language === 'en-US' ? 'English' : 'Brazilian Portuguese'
 
   dynamicSystemInstruction = `
 You are a high-speed live interview copilot for ${name || 'the candidate'}. Your outputs must be ultra-crisp, clear, bulleted talking points, and limited to a maximum of 3 sentences or 60 words per response. Avoid verbose blocks of text.
+
+Language: Respond exclusively in ${responseLanguage}, even if the candidate context is written in another language.
 
 Candidate Context:
 - Name: ${name || 'N/A'}

@@ -4,7 +4,7 @@ import fs from 'fs/promises'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { startAudioCapture } from './audioCapture'
-import { processAudioStream } from './transcriber'
+import { configureTranscriber, processAudioStream } from './transcriber'
 import { configureAI, generateInterviewHelp, getConversationHistory } from './aiService'
 import { captureScreenAndExtractText } from './screenCapture'
 import { saveInterviewSession } from './sessionLogger'
@@ -222,6 +222,9 @@ ipcMain.on('stop-interview', () => {
 // IPC: Start Interview Session
 ipcMain.on('start-interview', (_event, data) => {
   currentInterviewData = data
+
+  // Load the matching local speech recognition model before audio capture begins.
+  configureTranscriber(data.language)
 
   // Configure AI prompt instructions
   configureAI(data)

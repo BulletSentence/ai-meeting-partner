@@ -13,6 +13,7 @@ function App() {
     jobRole: '',
     jobDescription: '',
     cvText: '',
+    language: 'pt-BR',
     useOllama: false
   })
 
@@ -217,10 +218,10 @@ function App() {
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
               <div>
                 <h3 style={{ margin: 0, fontSize: '1.3rem', color: '#22d3ee', fontWeight: '700' }}>
-                  📂 Session History: {selectedSession.data.candidate.jobRole}
+                  📂 Histórico da sessão: {selectedSession.data.candidate.jobRole}
                 </h3>
                 <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b' }}>
-                  Recorded on {new Date(selectedSession.data.timestamp).toLocaleString()} for {selectedSession.data.candidate.name}
+                  Gravada em {new Date(selectedSession.data.timestamp).toLocaleString('pt-BR')} para {selectedSession.data.candidate.name}
                 </p>
               </div>
               <button 
@@ -239,7 +240,7 @@ function App() {
                 onMouseEnter={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.1)'}
                 onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.05)'}
               >
-                Close Viewer
+                Fechar
               </button>
             </div>
 
@@ -253,7 +254,7 @@ function App() {
                 border: '1px solid rgba(255, 255, 255, 0.03)',
                 overflowY: 'auto'
               }}>
-                <h4 style={{ margin: '0 0 12px 0', fontSize: '0.95rem', color: '#cbd5e1', fontWeight: '600' }}>🎙️ Full Transcript History</h4>
+                <h4 style={{ margin: '0 0 12px 0', fontSize: '0.95rem', color: '#cbd5e1', fontWeight: '600' }}>🎙️ Histórico completo da transcrição</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   {selectedSession.data.conversationHistory
                     .filter(msg => msg.role === 'user')
@@ -274,7 +275,7 @@ function App() {
                 border: '1px solid rgba(34, 211, 238, 0.04)',
                 overflowY: 'auto'
               }} className="markdown-content">
-                <h4 style={{ margin: '0 0 12px 0', fontSize: '0.95rem', color: '#22d3ee', fontWeight: '600' }}>🧠 Generated AI Cues</h4>
+                <h4 style={{ margin: '0 0 12px 0', fontSize: '0.95rem', color: '#22d3ee', fontWeight: '600' }}>🧠 Sugestões geradas pela IA</h4>
                 {selectedSession.data.conversationHistory
                   .filter(msg => msg.role === 'model' || msg.role === 'assistant')
                   .map((msg, idx) => (
@@ -290,50 +291,61 @@ function App() {
         {/* Config Form Fields */}
         <div>
           <h2 style={{ margin: '0 0 4px 0', fontSize: '1.6rem', color: '#22d3ee', fontWeight: '700', letterSpacing: '0.5px' }}>
-            🛸 Copilot Configuration
+            🛸 Configuração do Copilot
           </h2>
           <p style={{ margin: '0 0 20px 0', fontSize: '0.9rem', color: '#64748b' }}>
-            Set up your profile and interview details before launching the overlay.
+            Preencha seu perfil e os detalhes da entrevista antes de iniciar.
           </p>
 
           <div style={{ display: 'flex', gap: '30px' }}>
             {/* Left Form Column */}
             <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Name</label>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Nome</label>
                 <input
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Jordan Rivers"
+                  placeholder="Ex.: João da Silva"
                   style={inputStyle}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(34, 211, 238, 0.5)'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>College</label>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Faculdade / Universidade</label>
                 <input
                   type="text"
                   value={formData.college}
                   onChange={(e) => setFormData({ ...formData, college: e.target.value })}
-                  placeholder="e.g. Stanford University"
+                  placeholder="Ex.: Universidade de São Paulo"
                   style={inputStyle}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(34, 211, 238, 0.5)'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Target Job Role</label>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Cargo desejado</label>
                 <input
                   type="text"
                   value={formData.jobRole}
                   onChange={(e) => setFormData({ ...formData, jobRole: e.target.value })}
-                  placeholder="e.g. Senior Full Stack Engineer"
+                  placeholder="Ex.: Desenvolvedor Full Stack Sênior"
                   style={inputStyle}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(34, 211, 238, 0.5)'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'}
                 />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Idioma das transcrições e respostas</label>
+                <select
+                  value={formData.language}
+                  onChange={(e) => setFormData({ ...formData, language: e.target.value })}
+                  style={inputStyle}
+                >
+                  <option value="pt-BR">Português (Brasil)</option>
+                  <option value="en-US">Inglês (Estados Unidos)</option>
+                </select>
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '6px' }}>
                 <input
@@ -349,7 +361,7 @@ function App() {
                   }}
                 />
                 <label htmlFor="useOllama" style={{ fontSize: '0.85rem', color: '#cbd5e1', fontWeight: '600', cursor: 'pointer' }}>
-                  Use Local Ollama Model (gemma2:2b / offline)
+                  Usar modelo local do Ollama (gemma2:2b / offline)
                 </label>
               </div>
             </div>
@@ -357,22 +369,22 @@ function App() {
             {/* Right Form Column */}
             <div style={{ flex: 1.2, display: 'flex', flexDirection: 'column', gap: '14px' }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Job Description</label>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Descrição da vaga</label>
                 <textarea
                   value={formData.jobDescription}
                   onChange={(e) => setFormData({ ...formData, jobDescription: e.target.value })}
-                  placeholder="Paste the target job description or core technical focus..."
+                  placeholder="Cole a descrição da vaga ou o foco técnico principal..."
                   style={{ ...inputStyle, height: '70px', resize: 'none' }}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(34, 211, 238, 0.5)'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'}
                 />
               </div>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Candidate CV / Resume Text</label>
+                <label style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Currículo / resumo profissional</label>
                 <textarea
                   value={formData.cvText}
                   onChange={(e) => setFormData({ ...formData, cvText: e.target.value })}
-                  placeholder="Paste your resume details, highlights, projects..."
+                  placeholder="Cole experiências, destaques e projetos do seu currículo..."
                   style={{ ...inputStyle, height: '70px', resize: 'none' }}
                   onFocus={(e) => e.target.style.borderColor = 'rgba(34, 211, 238, 0.5)'}
                   onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.08)'}
@@ -385,7 +397,7 @@ function App() {
         {/* Saved Sessions list at the bottom */}
         <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '10px' }}>
           <h4 style={{ margin: '0 0 8px 0', fontSize: '0.85rem', color: '#cbd5e1', fontWeight: '600' }}>
-            📂 Saved Sessions History
+            📂 Histórico de sessões salvas
           </h4>
           <div style={{
             display: 'flex',
@@ -395,7 +407,7 @@ function App() {
           }}>
             {savedSessions.length === 0 ? (
               <div style={{ fontSize: '0.8rem', color: '#64748b', fontStyle: 'italic', padding: '10px 0' }}>
-                No saved sessions found. Start an interview to record one.
+                Nenhuma sessão salva. Inicie uma entrevista para registrar uma.
               </div>
             ) : (
               savedSessions.map((session, index) => (
@@ -429,7 +441,7 @@ function App() {
                     {session.data.candidate.name} • {session.data.candidate.college}
                   </div>
                   <div style={{ fontSize: '0.65rem', color: '#64748b', marginTop: '6px' }}>
-                    {new Date(session.data.timestamp).toLocaleDateString()} at {new Date(session.data.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(session.data.timestamp).toLocaleDateString('pt-BR')} às {new Date(session.data.timestamp).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                   </div>
                 </div>
               ))
@@ -455,7 +467,7 @@ function App() {
             onMouseEnter={(e) => e.target.style.boxShadow = '0 6px 20px rgba(6, 182, 212, 0.5)'}
             onMouseLeave={(e) => e.target.style.boxShadow = '0 4px 14px rgba(6, 182, 212, 0.35)'}
           >
-            🚀 Start Interview
+            🚀 Iniciar entrevista
           </button>
         </div>
       </div>
@@ -558,7 +570,7 @@ function App() {
         }}
       >
         <span style={{ fontSize: '0.75rem', color: '#22d3ee', fontWeight: '600' }}>
-          🛸 AI Interview Copilot (Hover here to drag or resize)
+          🛸 Copilot de entrevista com IA (passe o mouse aqui para arrastar ou redimensionar)
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', WebkitAppRegion: 'no-drag' }}>
           <span
@@ -586,7 +598,7 @@ function App() {
               e.target.style.transform = 'scale(1.0)'
             }}
           >
-            ⏹ Stop Session
+            ⏹ Encerrar sessão
           </span>
           <button
             onClick={() => window.api.minimize()}
@@ -687,7 +699,7 @@ function App() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '1.2rem' }}>🎙️</span>
               <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#cbd5e1', fontWeight: '600', letterSpacing: '0.5px' }}>
-                Live Transcript
+                Transcrição ao vivo
               </h3>
             </div>
             
@@ -760,7 +772,7 @@ function App() {
                 }}
               >
                 <span>🎙️</span>
-                <span>{audioSource === 'MIC' ? 'Cancel' : 'Ask Doubt'}</span>
+                <span>{audioSource === 'MIC' ? 'Cancelar' : 'Perguntar'}</span>
               </button>
             </div>
           </div>
@@ -801,7 +813,7 @@ function App() {
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ fontSize: '1.2rem' }}>🧠</span>
               <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#22d3ee', fontWeight: '600', letterSpacing: '0.5px' }}>
-                AI Copilot Cues
+                Sugestões da IA
               </h3>
             </div>
             {aiProvider && (
@@ -814,7 +826,7 @@ function App() {
                 border: '1px solid rgba(34, 211, 238, 0.15)',
                 fontWeight: '500'
               }}>
-                Powered by {aiProvider}
+                Fornecido por {aiProvider}
               </span>
             )}
           </div>
@@ -839,7 +851,7 @@ function App() {
                 textAlign: 'center',
                 lineHeight: '1.6'
               }}>
-                Listening to system monitor sink...<br />AI hints and optimal solutions will show here.
+                Ouvindo o áudio do sistema...<br />As sugestões e soluções da IA aparecerão aqui.
               </div>
             )}
           </div>
