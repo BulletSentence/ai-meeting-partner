@@ -1,6 +1,6 @@
-# ⚙️ Installation Guide
+# ⚙️ AI Assistant Installation Guide
 
-Follow these steps to set up the **AI Interview Copilot** on a fresh Linux/Ubuntu machine.
+Follow these steps to set up **AI Assistant** on a fresh Linux/Ubuntu machine.
 
 ---
 
